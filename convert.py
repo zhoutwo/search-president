@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from lib import html2text
+import os
 
 def convertAll(folder):
   """ Converts all files in the folder to text """
