@@ -10,7 +10,7 @@ b = 0.75
 def skip_bigram_helper(x):
   # Add stuff here if we want to handle sentence of length one.
 
-  x = x.strip(',.\n"').lower()
+  x = x.replace(',', '').replace(',', '').lower()
   bigrams = [b for b in zip(x.split(" ")[:-1], x.split(" ")[1:])]
   skipgrams = [b for b in zip(x.split(" ")[:-2], x.split(" ")[2:])]
   skipbigrams = bigrams + skipgrams
@@ -46,18 +46,21 @@ def BM25Scoring(x):
   # n counts for the number of documents that this word appears in.
   n = 0
   for filename in documentDict:
-    if x in documentDict[filename].strip(',.\n"').lower():
-      n += 1
+    for word in documentDict[filename].split(" "):
+      if x == word.lower():
+        n +=1 
+        break 
    
   # D = number of time this bigram appears in a file      
   score = dict()
   for filename in documentDict:
     D = 0
-    document = documentDict[filename].strip(',.\n"[]{}()*').lower().split(" ")
+    document = documentDict[filename].lower().split(" ")
     for word in document:
-      print word, x
+      #print word, x
       if word == x:
         D += 1
+    print IDF(N,n),N, n, D, Davs[filename]
     score[filename] = IDF(N, n) * D * (k + 1) / (D + k * (1 - b + b * Davs[filename]))
 
   scoreTuples = []
@@ -73,7 +76,7 @@ def start():
   if x == "q":
     exit()
   y = x.split(" ")
-  print len(x)
+  #print len(x)
   if len(y) == 0:
     print "Input invalid"
     exit()
