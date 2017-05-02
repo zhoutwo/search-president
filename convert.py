@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from lib import html2text
+from externalLib import html2text
 import os
 
 def convertAll(folder):
