@@ -10,6 +10,7 @@ b = 0.75
 def skip_bigram_helper(x):
   # Add stuff here if we want to handle sentence of length one.
 
+  x = x.strip(',.\n"').lower()
   bigrams = [b for b in zip(x.split(" ")[:-1], x.split(" ")[1:])]
   skipgrams = [b for b in zip(x.split(" ")[:-2], x.split(" ")[2:])]
   skipbigrams = bigrams + skipgrams
@@ -70,10 +71,11 @@ def start():
     for skipbigram in skipbigrams:
       score[filename] += IDF(N, n[skipbigram]) * D[skipbigram] * (k + 1) / (D[skipbigram] + k * (1 - b + b * Davs[filename]))
 
-  print score
-
-		
-	
+  scoreTuples = []
+  for filename in score:
+    scoreTuples.append((score[filename], filename))
+  scoreTuples.sort(reverse=True)
+  print scoreTuples
 	
 if __name__ == '__main__':
   start()
