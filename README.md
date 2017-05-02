@@ -1,16 +1,16 @@
-### Search President
-# About
+# Search President
+### About
 This python project took wikipedia page of all the US presidents. The purpose of this is to explore basic information retrieval techniques.
 
-# Feature
+### Feature
 Implement the BM25 scoring function.
 Implement skip-bigrams on words.
 
-# I/O
+### I/O
 Input: a query, eg: issued emancipation proclamation
 Output: the list of related president, eg: Lincoln
 
-# The expect input and outputs are:
+### The expect input and outputs are:
 lincoln -> Lincoln
 taft -> Taft
 nobel prize -> Teddy Roosevelt, Wilson, Carter, Obama
