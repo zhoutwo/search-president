@@ -23,7 +23,7 @@ def cmpT(a, b):
 	return sorted(a) == sorted(b)
 
 def BM25Scoring(x):
-  x = x.strip(',.\n"').lower()
+  x = x.lower()
   
   # reading file 
   documentDict = convertAll('Presidents')
@@ -47,14 +47,15 @@ def BM25Scoring(x):
   n = 0
   for filename in documentDict:
     if x in documentDict[filename].strip(',.\n"').lower():
-      n[skipbigram] += 1
+      n += 1
    
   # D = number of time this bigram appears in a file      
   score = dict()
   for filename in documentDict:
     D = 0
-    document = documentDict[filename].strip(',.\n"').lower()
+    document = documentDict[filename].strip(',.\n"[]{}()*').lower().split(" ")
     for word in document:
+      print word, x
       if word == x:
         D += 1
     score[filename] = IDF(N, n) * D * (k + 1) / (D + k * (1 - b + b * Davs[filename]))
@@ -69,10 +70,14 @@ def BM25Scoring(x):
 def start():
   
   x = raw_input ("Enter the query you want to search. Enter q to quit.\n")
-  if len(x) == 0:
+  if x == "q":
+    exit()
+  y = x.split(" ")
+  print len(x)
+  if len(y) == 0:
     print "Input invalid"
     exit()
-  elif len(x) == 1:
+  elif len(y) == 1:
     BM25Scoring(x)
   else:
 
