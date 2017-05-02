@@ -6,7 +6,7 @@ def convertAll(folder):
   """ Converts all files in the folder to text """
   result = dict()
   for filename in os.listdir(folder):
-    result[filename] = convert(os.path.join(folder, filename))
+    result[filename] = convert(os.path.join(folder, filename)).encode("UTF-8")
   return result
 
 def convert(file):
@@ -17,5 +17,5 @@ def convert(file):
   with open(file, "r") as currentFile:
     data = currentFile.readlines()
     currentFile.close()
-    data = "".join(data).decode("utf-8")
+    data = "".join(data).decode("UTF-8")
     return h.handle(data)
