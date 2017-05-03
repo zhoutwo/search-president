@@ -1,12 +1,19 @@
 #!/usr/bin/env python
 from externalLib import html2text
+from htmlreader import *
 import os
 
 def convertAll(folder):
   """ Converts all files in the folder to text """
   result = dict()
+  reader = HtmlPageReader()
   for filename in os.listdir(folder):
-    result[filename] = convert(os.path.join(folder, filename)).encode("UTF-8")
+    path = os.path.join(folder, filename)
+    content = convert(path).encode("UTF-8")
+    reader.setPath(path)
+    name = reader.getTitle().decode("UTF-8")
+    name = name[0:len(name) - 12]
+    result[name] = content
   return result
 
 def convert(file):
