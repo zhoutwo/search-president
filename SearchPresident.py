@@ -59,7 +59,7 @@ def BM25Scoring(x, documentDict):
     for word in document:
       if word == x:
         D += 1
-    print (N, D, n)
+    # print (N, D, n)
     score[filename] = abs(IDF(N, n)) * D * (k + 1) / (D + k * (1 - b + b * Davs[filename]))
   # print (N, D, n)
 
@@ -113,17 +113,25 @@ def start():
         Davs[filename] = 1.0 * lengths[filename] / avg_length
         
       n = dict()
+      a = dict()
         
       for skipbigram in skipbigrams:
         n[skipbigram] = 0
         for filename in documentDict:
-          a = 0
+          a[filename] = 0
           document = documents[filename]
           for bigram in document:
             if bigram == skipbigram:
-              a += 1
-          if a > 5:
+              a[filename] += 1
+          if a[filename] > 0:
             n[skipbigram] += 1
+        i = 0
+        while n[skipbigram] >= N / 2:
+          i += 1
+          n[skipbigram] = 0
+          for filename in documentDict:
+            if a[filename] > i:
+              n[skipbigram] += 1
               
       score = dict()
       for filename in documentDict:
@@ -133,9 +141,9 @@ def start():
           for documentBigram in documents[filename]:
             if documentBigram == skipbigram:
               D[skipbigram] += 1
-        print N, D, n
+        print filename, N, D, n
         for skipbigram in skipbigrams:
-          score[filename] += IDF(N, n[skipbigram]) * D[skipbigram] * (k + 1) / (D[skipbigram] + k * (1 - b + b * Davs[filename]))
+          score[filename] += len(skipbigram) * len(skipbigram) * IDF(N, n[skipbigram]) * D[skipbigram] * (k + 1) / (D[skipbigram] + k * (1 - b + b * Davs[filename]))
   
 #       for word in y:
 #         score2 = BM25Scoring(x, documentDict)
